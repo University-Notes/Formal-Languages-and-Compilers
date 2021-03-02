@@ -1,0 +1,103 @@
+\documentclass{article}
+\usepackage{algorithm,algorithmic}
+\usepackage{mathtools}
+\usepackage{hyperref, titlesec}
+\newcommand{\sectionbreak}{\clearpage}
+
+\title{Formal Languages and Compilers}
+\author{Matteo Secco}
+
+\begin{document}
+\maketitle\newpage
+\tableofcontents\newpage
+
+\section{Formal Language Theory}
+\begin{description}
+\item[Alphabet $\Sigma$:] any \underline{finite} set of symbols $\Sigma=\{a_1,a_2,...,a_k\}$
+\item[String:] a sequence of alphabeth elements
+\item[Language:] a set (possibly  infinite) of strings
+\[
+\Sigma=\{a,b,c\}
+\quad
+L_1=\{ab,ac\}
+\quad
+L_2=\{ab, aab, aaab, aaaab, ...\}
+\]
+\item[Sentences/Phrases:] strings belonging to a language
+\item[Language cardinality:] number of sentences of the language
+\[
+|L_1|=|\{ab,ab\}|=2
+\quad
+|L_2|=|\{ab, aab, aaab, aaaab, ...\}|=\infty
+\]
+\item[Number of occurrences of a symbol in a string:] $|bbc|_b=2$, $|bbc|_a=0$
+\item[Length of a string:] number of its elements
+\[
+|bbc|=3
+\quad
+|abbc|=4
+\]
+\item[String equality:] two strings $x=a_1a_2...a_h$ and $y=a_1a_2...a_k$ are equal $\iff$
+\begin{itemize}
+\item have same length: $|x|=|y| \iff h=k$
+\item elements from left to  right coincide: $a_i=b_i \quad \forall i\in\{1..h\}$
+\end{itemize}
+\end{description}
+
+\subsection{Operations on strings}
+\begin{description}
+\item[Concatenation] $x=a_1a_2...a_h \:\wedge \: y=b_1b_2...b_k  \implies  x\cdot y=a_1a_2...a_hb_1b_2...b_k$ 
+	\begin{itemize}
+	\item associative: $(xy)z=x(yz)$
+	\item length: $|xy|=|x|+|y|$
+	\end{itemize}
+\item[Empty string] $\epsilon$ is the neutral element for concatenation: $x\epsilon = \epsilon x=x\:\forall x$.
+	\begin{itemize}
+	\item length: $|\epsilon|=0$
+	\item \textbf{NB:} $\epsilon \neq \emptyset$
+	\end{itemize}
+\item[Substrings:] if $x=uyv$ then
+	\begin{itemize}
+	\item $y$ is a substring of $x$
+	\item $y$ is a \underline{proper substring} of $x \quad \iff u\neq \epsilon \vee v\neq \epsilon$
+	\item $u$ is a \underline{prefix} of $x$
+	\item $v$ is a \underline{suffix} of $y$
+	\end{itemize}
+\item[Reflection:] if $x=a_1a_2...a_h$ then $x^R=a_ha_{h-1}...a_1$
+	\begin{itemize}
+	\item $(x^R)^R=x$
+	\item $(xy)^R=y^Rx^R$
+	\item $\epsilon^R=\epsilon$
+	\end{itemize}
+\item[Repetition:] $x^m=\underbrace{xxx...x}_{m\text{ times}}$. Inductive definition:
+	\begin{itemize}
+	\item $x^0=\epsilon$
+	\item $x^m=x^{m-1}x \quad$ if $m>0$
+	\end{itemize}
+\end{description}
+	
+\subsection{Operations on Languages}
+\begin{description}
+\item[Reflection:] $L^R=\{ x|\exists y\left(y\in L \wedge x=y^R\right)\}$
+\item[Prefixes(L):] $\{y|y\neq \epsilon \wedge \exists x \exists z \left(x \in L \wedge z \neq \epsilon \wedge x=yz \right)\}$
+	\begin{itemize}
+	\item \textbf{Prefix-free language: } $L \cap Prefixes(L)=\emptyset$
+	\end{itemize}
+\item[Concatenation:] $L'L''=\{xy|x \in L' \wedge y \in L''\}$
+\item[Power:] inductive definition:
+	\begin{itemize}
+	\item $L^0=\{\epsilon\}$
+	\item $L^m=L^{m-1}L	\quad$for $m>0$
+	\item Consequences:
+		\begin{itemize}
+		\item $\emptyset ^0=\{\epsilon\}$
+		\item $L \cdot \emptyset = \emptyset \cdot L = \emptyset$
+		\item $L \cdot \{\epsilon\} = \{\epsilon\} \cdot L = L$
+		\end{itemize}
+	\end{itemize}
+\item [Universal language:] over alphabet $\Sigma$: $L_{\text{universal}}=\Sigma^0 \cup \Sigma ^1 \cup ...$
+\item[Complement:] of $L$ over $\Sigma$: $\neg L=L_{\text{universal}} \backslash L$
+\item[Star:] $L^*=$
+
+\end{description}
+\end{document}
