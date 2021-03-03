@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{algorithm,algorithmic}
 \usepackage{mathtools}
+\usepackage{dsfont}
+\newcommand{\N}{\mathds{N}}
 \usepackage{hyperref, titlesec}
 \newcommand{\sectionbreak}{\clearpage}
 
@@ -97,7 +99,72 @@ L_2=\{ab, aab, aaab, aaaab, ...\}
 	\end{itemize}
 \item [Universal language:] over alphabet $\Sigma$: $L_{\text{universal}}=\Sigma^0 \cup \Sigma ^1 \cup ...$
 \item[Complement:] of $L$ over $\Sigma$: $\neg L=L_{\text{universal}} \backslash L$
-\item[Star:] $L^*=$
-
+\item[Star:] formally called \textbf{reflexive and transitive closure} or \textbf{Klenee star} 
+\[L^*=\bigcup_{h=0}^{\infty}L^h=L^0 \cup L^1 \cup ... = \epsilon \cup L^1 \cup L^2\]
+\[\Sigma^*=L_{\text{universal}}\]
+	\begin{description}
+	\item[Monotonic:] $L \subseteq L^*$
+	\item[Close under concatenation:] $x \in L^* \wedge y \in L^* \implies xy \in L^*$
+	\item[Idempotent:] $(L^*)^*=L^*$
+	\item[Commutative with reflection:] $(L^*)^R=(L^R)^*$
+	\item $\emptyset^*=\{\epsilon\}$
+	\item $\{\epsilon\}^*=\{\epsilon\}$
+	\end{description}
+\item[Cross:] $L^+=L \cdot L^*$
+\item[Quotient:] $L_1 / L_2 =
+\{y| \exists x \in L_1 \exists z \in L_2 (x=yz)\}$
+	\begin{itemize}
+	\item \textbf{Not set quotient!}
+	\item Removes from $L_1$ suffixes contained in $L_2$
+	\end{itemize}
 \end{description}
+
+
+
+\section{Regular Expressions and Languages}
+\paragraph{Regular languages} are the simplest family of laguages.\\
+They can be defined in three ways:
+\begin{itemize}
+\item Algebraically
+\item Using generative grammars
+\item Using recognizer automata
+\end{itemize}
+\subsection{Algebraic definition}
+\paragraph{Regular expressions} are expression on languages that composes languages operations.\\
+Formally
+\begin{itemize}
+\item Is a string $r$
+\item Over the alphabet $\Sigma=\{a_1,a_2,...,a_n\} \cup \{\emptyset, \cup, \cdot, *\}$
+\end{itemize}
+Moreover, assuming $s$ and $t$ are regular expressions, then $r$ is a regular expression if any of the following rules applies:
+\begin{itemize}
+\item $r=\emptyset$
+\item $r=a, \quad a \in \Sigma$
+\item $r=s \cup t$ (alternative notation is $s|t$)
+\item $r=s \cdot t$ (the $\cdot$ can be omitted)
+\item $r=s^*$
+\end{itemize}
+\paragraph{The meaning} of a r.e. is a \textbf{language $L_r$} of alphabet $\Sigma$ according to the table:
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc}
+\textbf{Expression}	& 	\textbf{Language}\\
+$\emptyset$			&	$\emptyset$\\
+$\epsilon$			&	$\{\epsilon\}$\\
+$a\in \Sigma$		&	$\{a\}$\\
+$s \cup t$			&	$L_s \cup L_t$\\
+$s \cdot t$			&	$L_s \cdot L_t$\\
+$s^*$				&	$L_s^*$\\
+\end{tabular}
+\end{center}
+\end{table}
+\paragraph{Regular Languages} are languages denoted by a regular expression
+\subsection{Language Families}
+\paragraph{REG} is the collection of all regular languages
+\paragraph{FIN} is the collection of all languages with finite cardinality
+\subparagraph{Every finite language is regular} $FIN \subset REG$: 
+\begin{itemize}
+\item $L\in FIN \implies L = \bigcup_{i=1}^{k \in \N} x_i \implies L \in FIN$
+\item $L=a^* \implies L \in REG \wedge L \notin FIN$
+\end{itemize}
 \end{document}
