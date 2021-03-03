@@ -167,4 +167,108 @@ $s^*$				&	$L_s^*$\\
 \item $L\in FIN \implies L = \bigcup_{i=1}^{k \in \N} x_i \implies L \in FIN$
 \item $L=a^* \implies L \in REG \wedge L \notin FIN$
 \end{itemize}
+
+
+
+\subsection{Derivation}
+\paragraph{Choice} Union and Concatenation corresponds to possible choices. One obtains subexpressions by making a choice that identifies a sub language.
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cc}
+\textbf{Regular expression}	&	\textbf{Choices}\\
+$e_1\cup ... \cup e_k$	&	$e_i \quad \forall i \in \{1,2,...,k\}$\\
+$e^*$	&	$\epsilon$ or $e^n \quad \forall n\geq 1$\\
+$e^+$	&	$e^n \quad \forall n\geq 1$\\ 
+\end{tabular}
+\end{center}
+\end{table}
+\paragraph{Derivation} among two r.e: $e_1 \implies e_2$ if 
+\[e_1=\alpha \beta \gamma \wedge e_2=\alpha \delta \gamma\]
+where $\gamma$ is a choice of $\beta$.\\
+Derivation can be applied repeatedly, leading to $\xRightarrow{n}$ (deriving $n$ times, $\xRightarrow{*}$ (0 or more times), $\xRightarrow{+}$ (1 or more times). 
+\paragraph{Language defined by an r.e.} $L(r)=\{x\in \Sigma^* | r \xRightarrow{*} x\}$
+\paragraph{Equivalent r.e.} defines the same language
+
+
+\subsection{Ambiguity of Regular Expressions}
+\paragraph{Numbered subexpressions of a R.E}
+\begin{itemize}
+\item Add all passible parentheses to the r.e.
+\item number the elements of $\Sigma$
+\item identify all the subexpressions
+\end{itemize}
+\paragraph{Ambiguity} happens when a phrase can be obtained through distinct derivations, which differ \textbf{not only for the order}.
+\paragraph{Sufficient condition for ambiguity} of the r.e. $f$ having numbered version $f'$ is that $\exists x \exists y \in L(f') | x \neq y$ but  $x=y$ when numbers are removed
+
+
+\subsection{Extended Regular Expressions}
+Regular expressions extended with other operators:
+\begin{description}
+\item[Power:] $a^n=\underbrace{aa...a}_{\text{n times}}$. NB: $n$ is an actual number, cannot be a parameter.
+\item[Repetition:] from $k$ to $n>k$: $[a]_k^n=a^k \cup a^{k+1} \cup ... \cup a^n$
+\item[Optionality:] $\epsilon \cup a$ or $[a]$
+\item[Ordered interval:] $(0...9) \quad (a...z) \quad (A...Z)$
+\item[Intersection]
+\item[Difference]
+\item[Complement]
+\end{description}
+It can be shown that Extended R.E. are not more powerful than standard R.E.
+\paragraph{Closures} $REG$ is closed under
+\begin{itemize}
+\item Concatenation
+\item Union
+\item Star (*)
+\item Cross (+)
+\item Power
+\item Intersection
+\item Complement
+\end{itemize}
+\paragraph{Lists} contains an unspecified number of elements of the same type. Lists can be represanted with regex:
+\[ie(se)*f\]
+where $i$,$s$,$f$ are terminal symbols denoting the beginning of the list, a separator between elements, and the end of the string.
+\subparagraph{Nested lists} are possible using regex if the nesting level is limited:
+\begin{align*}
+list_1 &= i_1 \cdot list_2 \cdot (s_1 \cdot list_2)^* \cdot f_1\\
+list_2 &= i_2 \cdot list_3 \cdot (s_2 \cdot list_3)^* \cdot f_2\\
+... &\\
+list_k &= i_k \cdot e_k \cdot (s_k \cdot e_k)^* \cdot f_k
+\end{align*}
+
+
+
+
+\section{Context Free Grammars}
+The language $L=\{a^nb^n|n>0\}$ is \textbf{not} regular.
+\paragraph{Grammars} a tool to define language through \textbf{rewriting rules}. Phrases are generated hrough repeated application of the rules.
+\paragraph{Context Free Grammar} is defined by 4 entities:
+\begin{description}
+\item[Non-terminal aplhabet] $V$
+\item[Terminal alphabet] $\Sigma$, alphabeth of the resulting language
+\item[Rules/Productions] $P$
+\item[Axiom/Start] $S\in V$, from which derivation starts
+\end{description}
+\subparagraph{Rules form: }$X \rightarrow \alpha$ where $X \in V \wedge \alpha \in (V \cup \Sigma)^*$. Rules can be condensed:
+\begin{align*}
+X &\rightarrow \alpha_1\\
+X &\rightarrow \alpha_2\\
+...\\
+X &\rightarrow \alpha_k\\
+&\text{can be rewritten as}\\
+X &\rightarrow \alpha_1 | \alpha_2 | ... | \alpha_k
+\end{align*}.
+\subparagraph{Safety conventions:}
+\begin{itemize}
+\item $\{\rightarrow, |, \cup, \epsilon\} \cap \Sigma = \emptyset$
+\item $V \cap \Sigma = \emptyset$
+\end{itemize}
+\subparagraph{Notation conventions:}
+$V$ elements can be distinguished using:
+\begin{itemize}
+\item <Angle brackets> surrounding elements of $V$
+\item Elements of $\Sigma$ in \textbf{bold}, elements of $V$ in \textit{italic}
+\item Elements of $\Sigma$ 'quoted'
+\item Elements of $V$ in UPPERCASE
+\end{itemize}
+
+
 \end{document}
