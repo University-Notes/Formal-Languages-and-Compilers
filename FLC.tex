@@ -5,6 +5,7 @@
 \newcommand{\N}{\mathds{N}}
 \usepackage{hyperref, titlesec}
 \newcommand{\sectionbreak}{\clearpage}
+\usepackage{algorithm,algorithmic}
 
 \title{Formal Languages and Compilers}
 \author{Matteo Secco}
@@ -264,11 +265,70 @@ X &\rightarrow \alpha_1 | \alpha_2 | ... | \alpha_k
 \subparagraph{Notation conventions:}
 $V$ elements can be distinguished using:
 \begin{itemize}
-\item <Angle brackets> surrounding elements of $V$
+\item $<$Angle brackets$>$ surrounding elements of $V$
 \item Elements of $\Sigma$ in \textbf{bold}, elements of $V$ in \textit{italic}
 \item Elements of $\Sigma$ 'quoted'
 \item Elements of $V$ in UPPERCASE
 \end{itemize}
+\subsection{Types of rules}
+\begin{description}
+\item[Terminal] $\rightarrow u|\epsilon$
+\item[Empty/Null] $\rightarrow \epsilon$
+\item[Initial/Axiomatic] $S\rightarrow$
+\item[Recursive] $A\rightarrow \alpha A \beta$
+\item[Left-Recursive] $A \rightarrow A \beta$
+\item[Right-Recursive] $A \rightarrow \alpha A$
+\item[Left-and-Right-Recursive] $A \rightarrow A \beta A$
+\item[Copy/Categorization] $A \rightarrow B$
+\item[Linear] $\rightarrow uBv|w$
+\item[Right-linear] $\rightarrow uB|w$
+\item[Left-Linear] $\rightarrow Bv|w$
+\item[Homogeneous normal] $\rightarrow A_1...A_n|a$
+\item[Chomsky normal] $\rightarrow BC|a$
+\item[Greibach normal] $\rightarrow a\sigma | b$ where $\sigma \in V^*$
+\item[Operator normal] $\rightarrow AaB$
+\subsection{Derivation}
+\paragraph{Derivation $\implies$} Let $\beta, \gamma \in (V \cup \Sigma)^*$. Then $\beta \implies \gamma$ for grammar $G=<V,\Sigma, P, S>$ iff
+\begin{align*}
+\beta	&=\delta A \eta	&\wedge\\
+A &\rightarrow \alpha \quad \in V &\wedge\\
+\gamma &= \delta \alpha \eta
+\end{align*}
+\end{description}
+Power, star and cross operators apply to derivation as usual %TODO formalize
+\subsection{Erroneous Grammars and Useless Rules}
+\paragraph{Clean grammar} $G=<V,\Sigma, P, S>$ is clean iff $\forall A \in V$
+\begin{description}
+\item[A is reachable:] $S \xRightarrow{*} \alpha A \beta$ where $\alpha , \beta \in (V \cap \Sigma)^*$
+\item[A is defined:] $L_A(G)\neq \emptyset$ (generates a non-empty language)
+\item[(G doesn't allow for circular derivations)] optional, but useful
+\end{description}
+\begin{algorithm}[h!]
+\caption{Undefined nonterminals identification}
+\begin{algorithmic}
+\STATE $NEW \leftarrow \{A|(A\rightarrow u) \in P \wedge u \in \Sigma^*\}$
+\REPEAT
+\STATE $DEF \leftarrow NEW$
+\STATE $NEW \leftarrow DEF \cup \{B | (B \rightarrow D_1D_2...D_n)\in P \wedge \overbrace{\forall i(D_i\in DEF \cup \Sigma)}^{D_i \text{in DEF or a terminal}}\}$
+\UNTIL{$NEW=DEF$}
+\STATE $UNDEF \leftarrow V \setminus DEF$
+\end{algorithmic}
+\end{algorithm}
+\subparagraph{Produce relation} $A$ produce $B$ iff $A \rightarrow (\alpha B \beta)\in P$, where $A \neq B \wedge \alpha, \beta$ are strings
+\begin{algorithm}[h!]
+\caption{Unreachable nonterminals identification}
+\begin{algorithmic}
+\STATE Write the graph of the \textbf{produce} relation
+\STATE Delete states that are not reachable from $S$
+\end{algorithmic}
+\end{algorithm}
 
+\subsection{Infinite Languages and Recursion} 
+Interesting languages are infinite. Infinite languages require the grammar generating them to be recursive
+\paragraph{Recursive derivation} $A \xRightarrow{n} xAy$ 
+\subparagraph{Immediately recursive derivation} $A \xRightarrow{1} xAy$ 
+\subparagraph{Left-recursive derivation} $A \xRightarrow{n} Ay$ 
+\subparagraph{Right-recursive derication} $A \xRightarrow{n} xA$ 
+\paragraph{Infinity condition} $|L(G)|=\infty \iff G$ is clean $\wedge$ $G$ avoids circular derivations $\wedge$ $G$ allows recursive derivations
 
 \end{document}
