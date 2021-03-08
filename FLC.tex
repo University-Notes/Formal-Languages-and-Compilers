@@ -392,4 +392,13 @@ Interesting languages are infinite. Infinite languages require the grammar gener
 \end{itemize}
 We can observe that $L_1 = \{a^nc^n|n\geq 1\} \subset L_{\text{DYCK}}$
 
+
+\subsection{Regular composition of (Context) Free Languages}
+The family of free languages is closed under \underline{union, concatenation, kleen star}. Given $G_1=(\Sigma_1, V_{N_1}, P_1, S_1)$ and $G_2=(\Sigma_2, V_{N_2}, P_2, S_2$ such that $V_{N_1} \cap V_{N_2} = \emptyset \wedge S \notin (V_{N_1} \cup V_{N_2})$
+
+\begin{description}
+\item[Union] $G=(\Sigma_1 \cup \Sigma_2, \quad V_{N_1} \cup V_{N_2} \cup \{S\}, \quad P_1 \cup P_2 \cup \{S \to S_1 S_2\}, \quad S)$
+\item[Concatenation]
+\item[Kleen star]
+\end{description}
 \end{document}
