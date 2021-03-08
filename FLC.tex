@@ -6,6 +6,7 @@
 \usepackage{hyperref, titlesec}
 \newcommand{\sectionbreak}{\clearpage}
 \usepackage{algorithm,algorithmic}
+\usepackage{qtree}
 
 \title{Formal Languages and Compilers}
 \author{Matteo Secco}
@@ -330,5 +331,65 @@ Interesting languages are infinite. Infinite languages require the grammar gener
 \subparagraph{Left-recursive derivation} $A \xRightarrow{n} Ay$ 
 \subparagraph{Right-recursive derication} $A \xRightarrow{n} xA$ 
 \paragraph{Infinity condition} $|L(G)|=\infty \iff G$ is clean $\wedge$ $G$ avoids circular derivations $\wedge$ $G$ allows recursive derivations
+
+\subsection{Syntax Trees and Canonical Derivations}
+\paragraph{Syntax tree} A graph representing the derivation process which is
+\begin{itemize}
+\item Oriented
+\item Sorted (Top-down, Left-to-right)
+\item Acyclical
+\item $\forall n_1, n_2 \exists!$ a path $n_1 \leftrightarrow n_2$
+\end{itemize}
+\paragraph{Subtree} with root $N$ is the tree having $N$ as root, includes $N$ and all its descendant
+\paragraph{Example grammar}
+\begin{itemize}
+\item $E \to E + T | T$
+\item $T \to T * F | F$
+\item $F \to (E) | i$
+\end{itemize}
+\paragraph{Example sentence} $i+i*i$
+\paragraph{Example tree} 
+\Tree 
+[.E_1 
+	[.E_2 [.T_4 [.F_6 i ]]]
+	+
+	[.T_3
+		[.T_4 [.F_6 i ]]
+		*
+		[.F_6 i ]
+	]
+]
+				
+\paragraph{Left derivation} the left-most rule is applied first
+\paragraph{Right derivation} the right-most rule is applied first
+\paragraph{Unicity of derivations} for a \underline{fixed} syntax tree $\exists!$ the left and right derivations
+\paragraph{Skeleton tree} is equal to the syntax tree with all the non-terminals obscured
+\Tree
+[.$\bullet$ 
+	[.$\bullet$ [.$\bullet$ [.$\bullet$ i ]]]
+	+
+	[.$\bullet$
+		[.$\bullet$ [.$\bullet$ i ]]
+		*
+		[.$\bullet$ i ]
+	]
+]
+\paragraph{Condensed skeleton tree} obtained from the skeleton tree by merging internal nodes and non-branching paths\\
+\Tree
+[.$\bullet$ 
+	i
+	+
+	[.$\bullet$
+		i
+		*
+		i
+	]
+]
+\subsubsection{Parenthesis languages} Are expressed by the \underline{Dyck language}
+\begin{itemize}
+\item $\Sigma=\{a,c\}$
+\item $S \to aScS | \epsilon$
+\end{itemize}
+We can observe that $L_1 = \{a^nc^n|n\geq 1\} \subset L_{\text{DYCK}}$
 
 \end{document}
