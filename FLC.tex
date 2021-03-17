@@ -441,4 +441,77 @@ S \derives S_1S_2 \derives[+] uvS_2 \derives[+] uvz
 \item[Others] See slides %TODO
 \end{description}
 For practical purposes, it is also possible to modify the language (and for programming languages this may be desirable)
+\subsection{Grammar equivalence}
+\paragraph{Weak equivalence} $G_1$ and $G_2$ are weakly equivalent if $L(G_1)=L(G_2)$. Semi decidable
+\paragraph{Strong equivalence} $G_1$ is strongly/structurally equivalent to $G_2$ if $L(G_1)=L(G_2)\wedge G_1$ and $G_2$ have the same \textbf{condensed skeleton tree}. Decidable
+\subsection{Normal forms and Transformations}
+\paragraph{Expansion of a non-terminal} allows to eliminate it from the rules where it appears
+\[A\to xBy \quad B\to b_1|b_2|...|b_n\]
+\[A\to xb_1y|xb_2y|...|xb_ny\]
+\paragraph{Elimination of the axiom $S$ from right parts} obtained by introducing a replacement axiom:
+\[S_{new}\to S_{old}\]
+\subsubsection{Normal form without nullable nonterminals} Grammar such that $\forall A \in V\setminus \{S\} \quad \neg A\derives[+]\epsilon$
+\paragraph{Nullable non-terminals}
+$A$ is nullable if $\exists A \derives[+] \epsilon$
+\subparagraph{Nullables set} $Null \subseteq V$
+\begin{algorithm}[h!]
+	\caption{Compute $Null$}
+	\begin{algorithmic}
+		\REPEAT
+		\FORALL{$A \in V$}
+		\IF{$A\to \epsilon \in P$}
+		\STATE $A \in Null$
+		\ELSIF{$A\to A_1A_2\dots A_n \in P|A_i \in V \setminus \{A\}$ \AND $\forall A_i(A_i \in Null)$}
+		\STATE $A \in Null$
+		\ENDIF
+		\ENDFOR
+		\UNTIL{convergence is reached}
+	\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{Construction of non-nullable normal form}
+\begin{algorithmic}
+\STATE Compute $Null$
+\FORALL{$R \in P$}
+	\FORALL{$A \in Null$}
+		\FORALL{Occurrencies of $A$ in the right part of $R$}
+			\STATE Remove $A$ in the given occurrence of $R$
+			\STATE Add the resulting rule to $P$
+		\ENDFOR
+	\ENDFOR
+\ENDFOR
+\FORALL{$R=A\to\epsilon\in P|A\neq S$}
+	\STATE $P \leftarrow P\setminus R$
+\ENDFOR
+\STATE Clean the grammar
+\STATE Remove circularities	
+\end{algorithmic}
+\end{algorithm}
+\subsubsection{Copy rules elimination} Copy rules reduce grammar size but increase derivation length
+\paragraph{Example: }$loop \to while | for | repeat$
+\paragraph{Copy set} $Copy(A)=\{B \in V | \exists A \derives[*]B\}$
+\begin{algorithm}
+\caption{Computation of $Copy$}
+\begin{algorithmic}
+\REQUIRE $A \derives[+] \epsilon \implies A=S$ (no empty rules)
+\REPEAT
+	\FORALL{$A \in V$}
+		\STATE $A \in Copy(A)$
+		\FORALL{$B,C \in V$}
+			\IF{$B \in Copy(A)$ \AND $B\to C\in P$}
+				\STATE $C \in Copy(A)$
+			\ENDIF
+		\ENDFOR
+	\ENDFOR
+\UNTIL{convergence is reached}
+\end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+\caption{Definition of equivalent grammar without copy rules}
+\begin{algorithmic}
+\STATE $P' \leftarrow P \setminus \{A\to B|A,B \in V\}$ \COMMENT{delete copy rules}
+\STATE $P' \leftarrow P' \cup \{A\to a|\exists B(B \in Copy(A) \wedge (B\to a)\in P)\}$ \COMMENT{add compensating rules}
+\end{algorithmic}
+\end{algorithm}
+\subsection{Conversion from left to right recursion}
 \end{document}
