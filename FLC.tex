@@ -8,6 +8,8 @@
 \usepackage{algorithm,algorithmic}
 \usepackage{qtree}
 
+\newcommand{\derives}[1][ ]{\xRightarrow{#1}}
+
 \title{Formal Languages and Compilers}
 \author{Matteo Secco}
 
@@ -184,11 +186,11 @@ $e^+$	&	$e^n \quad \forall n\geq 1$\\
 \end{tabular}
 \end{center}
 \end{table}
-\paragraph{Derivation} among two r.e: $e_1 \implies e_2$ if 
+\paragraph{Derivation} among two r.e: $e_1 \derives e_2$ if 
 \[e_1=\alpha \beta \gamma \wedge e_2=\alpha \delta \gamma\]
 where $\gamma$ is a choice of $\beta$.\\
-Derivation can be applied repeatedly, leading to $\xRightarrow{n}$ (deriving $n$ times, $\xRightarrow{*}$ (0 or more times), $\xRightarrow{+}$ (1 or more times). 
-\paragraph{Language defined by an r.e.} $L(r)=\{x\in \Sigma^* | r \xRightarrow{*} x\}$
+Derivation can be applied repeatedly, leading to $\derives[n]$ (deriving $n$ times, $\derives[*]$ (0 or more times), $\derives[+]$ (1 or more times). 
+\paragraph{Language defined by an r.e.} $L(r)=\{x\in \Sigma^* | r \derives[*] x\}$
 \paragraph{Equivalent r.e.} defines the same language
 
 
@@ -300,7 +302,7 @@ Power, star and cross operators apply to derivation as usual %TODO formalize
 \subsection{Erroneous Grammars and Useless Rules}
 \paragraph{Clean grammar} $G=<V,\Sigma, P, S>$ is clean iff $\forall A \in V$
 \begin{description}
-\item[A is reachable:] $S \xRightarrow{*} \alpha A \beta$ where $\alpha , \beta \in (V \cap \Sigma)^*$
+\item[A is reachable:] $S \derives[*] \alpha A \beta$ where $\alpha , \beta \in (V \cap \Sigma)^*$
 \item[A is defined:] $L_A(G)\neq \emptyset$ (generates a non-empty language)
 \item[(G doesn't allow for circular derivations)] optional, but useful
 \end{description}
@@ -326,10 +328,10 @@ Power, star and cross operators apply to derivation as usual %TODO formalize
 
 \subsection{Infinite Languages and Recursion} 
 Interesting languages are infinite. Infinite languages require the grammar generating them to be recursive
-\paragraph{Recursive derivation} $A \xRightarrow{n} xAy$ 
-\subparagraph{Immediately recursive derivation} $A \xRightarrow{1} xAy$ 
-\subparagraph{Left-recursive derivation} $A \xRightarrow{n} Ay$ 
-\subparagraph{Right-recursive derication} $A \xRightarrow{n} xA$ 
+\paragraph{Recursive derivation} $A \derives[n] xAy$ 
+\subparagraph{Immediately recursive derivation} $A \derives[1] xAy$ 
+\subparagraph{Left-recursive derivation} $A \derives[n] Ay$ 
+\subparagraph{Right-recursive derivation} $A \derives[n] xA$ 
 \paragraph{Infinity condition} $|L(G)|=\infty \iff G$ is clean $\wedge$ $G$ avoids circular derivations $\wedge$ $G$ allows recursive derivations
 
 \subsection{Syntax Trees and Canonical Derivations}
