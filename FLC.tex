@@ -399,8 +399,46 @@ We can observe that $L_1 = \{a^nc^n|n\geq 1\} \subset L_{\text{DYCK}}$
 The family of free languages is closed under \underline{union, concatenation, kleen star}. Given $G_1=(\Sigma_1, V_{N_1}, P_1, S_1)$ and $G_2=(\Sigma_2, V_{N_2}, P_2, S_2$ such that $V_{N_1} \cap V_{N_2} = \emptyset \wedge S \notin (V_{N_1} \cup V_{N_2})$
 
 \begin{description}
-\item[Union] $G=(\Sigma_1 \cup \Sigma_2, \quad V_{N_1} \cup V_{N_2} \cup \{S\}, \quad P_1 \cup P_2 \cup \{S \to S_1 S_2\}, \quad S)$
-\item[Concatenation]
-\item[Kleen star]
+\item[Union] $G_1 \cup G_2=(\Sigma_1 \cup \Sigma_2, \quad V_{N_1} \cup V_{N_2} \cup \{S\}, \quad P_1 \cup P_2 \cup \underbrace{\{S \to S_1|S_2\}}_\text{execute concatenation at the beginning}, \quad S)$
+\item[Concatenation] $G_1G_2=(\Sigma_1 \cup \Sigma_2, \quad \{S\} \cup V_{N_1} \cup V_{N_2}, \quad P_1 \cup P_2 \cup \underbrace{\{S \to S_1|S_2\}}_\text{choose one of the languages at the beginning}, \quad S)$
+\item[Kleen star] $G_1^*=(\Sigma_1, \{S\} \cup V_{N_1}, \quad P_1 \cup \underbrace{ \{S\to SS_1|\epsilon \} }_\text{Perform repetition}, \quad S$
+\item[Cross] $G_1^*=(\Sigma_1, \{S\} \cup V_{N_1}, \quad P_1 \cup \underbrace{\{S\to SS_1|S_1\}}_\text{Perform repetition}, \quad S$
+\end{description} 
+\subsection{Ambiguity}
+\paragraph{Syntactic ambiguity} A sentence $x$ of a grammar $G$ is ambiguous if it admits multiple distinct syntax trees
+\paragraph{Degree of ambiguity DOA} 
+\begin{description}
+\item[of a sentence ] $x$ of a language $L(G)$: $DOA(x)=$number of distinct trees for $x$ compatible with $G$
+\item[of a grammar] $DOA(G)=max(\{DOA(x)|x \in L(G)\})$. It may happen that $DOA(G)=\infty$
 \end{description}
+\paragraph{Determining if a grammar is ambiguous} is a semi-decidable problem. Can be proven only if the grammar is ambiguous.
+\subsubsection{Ambiguous forms and remedies}
+\begin{description}
+\item[Bilateral recursion] $S \to S x S|y$ where $x,y \in \Sigma \cup V$
+	\subitem[Right-recursive] $S \to y S | y$
+	\subitem[Left-recursive] $S \to S y | y$
+\item[Left and right recursion in different rules] $S \to Sa|bS|c$
+	\subitem[Separate] $S\to AcB$,
+					$A\to Aa$,
+					$B\to bB$
+	\subitem[Enforce order] $S\to aS|B$,
+							$B\to Xb|c$
+\item[Union] If $G=G_1 \cup G_2$ and $L(G_1) \cap L(G_2) \neq \emptyset$ then some sentences in $G$ can be derived using both the rules of $G_1$ or the rules of $G_2$
+	\subitem[Disjoint] provide disjointed set of rules: $G=(G_1\cap G_2) \cup (G_1 \setminus G_2) \cup (G_2 \setminus G_1)$ and the rules of these subsets are disjointed
+\item[Concatenation] $G=G_1G_2$ is ambiguous if 
+\[
+\exists x_1,u \in L_1
+\exists x_2,z \in L_2
+\exists v \neq \epsilon|
+x_1=uv \wedge x_2=vz
+\]
+\[
+S \derives S_1S_2 \derives[+] uS_2 \derives[+] uvz \qquad \wedge \qquad
+S \derives S_1S_2 \derives[+] uvS_2 \derives[+] uvz
+\]
+\item[Inherent ambiguity] $L$ is inherently ambiguous if any grammar $G$ for $L$ is ambiguous.
+	\subitem[Avoidance] inherent ambiguity is rare and can be avoided
+\item[Others] See slides %TODO
+\end{description}
+For practical purposes, it is also possible to modify the language (and for programming languages this may be desirable)
 \end{document}
