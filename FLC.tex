@@ -6,6 +6,7 @@
 \usepackage{hyperref, titlesec}
 \newcommand{\sectionbreak}{\clearpage}
 \usepackage{algorithm,algorithmic}
+\renewcommand{\algorithmiccomment}[1]{\hfill$\triangleright$\textit{#1}}
 \usepackage{qtree}
 
 \newcommand{\derives}[1][ ]{\xRightarrow{#1}}
@@ -493,7 +494,7 @@ $A$ is nullable if $\exists A \derives[+] \epsilon$
 \begin{algorithm}
 \caption{Computation of $Copy$}
 \begin{algorithmic}
-\REQUIRE $A \derives[+] \epsilon \implies A=S$ (no empty rules)
+\REQUIRE $A \derives[+] \epsilon \implies A=S$ \COMMENT{no empty rules}
 \REPEAT
 	\FORALL{$A \in V$}
 		\STATE $A \in Copy(A)$
@@ -513,5 +514,62 @@ $A$ is nullable if $\exists A \derives[+] \epsilon$
 \STATE $P' \leftarrow P' \cup \{A\to a|\exists B(B \in Copy(A) \wedge (B\to a)\in P)\}$ \COMMENT{add compensating rules}
 \end{algorithmic}
 \end{algorithm}
-\subsection{Conversion from left to right recursion}
+\subsubsection{Conversion from left to right recursion}
+\paragraph{Immediate L-recursion}
+\[
+\begin{cases}
+A\to AB_1|AB_2|\dots |AB_n\\
+A\to a_1|a_2|\dots|a_h
+\end{cases}
+\]
+becomes
+\[
+\begin{cases}
+A\to a_1A'|a_2A'|\dots|a_hA'\\
+A'\to B_1A'|B_2A'|\dots|B_na'
+\end{cases}
+\]
+\paragraph{Non-immediate} not treated here
+\subsubsection{Chomsky normal form} only 2 types of rules allowed:
+\begin{itemize}
+	\item $A\to BC$
+	\item $A\to a$
+\end{itemize}
+\begin{algorithm}
+\caption{Convert $G$  to Chomsky's normal}
+\begin{algorithmic}
+\STATE$P \leftarrow \emptyset$
+\IF{$\epsilon \in L(G)$}
+	\STATE $P \leftarrow \{S\to \epsilon\}$
+\ENDIF
+\FORALL{$R=x_0\to x_1x_2\dots x_n|x_i\in\Sigma\cup V$}
+	\STATE $P \leftarrow P\cup \{x_0 \to X_1X_n\}$ \COMMENT{$X_1,X_n$ are newly created symbols}
+	\STATE $P \leftarrow P \cup \{X_s \to x_2\dots x_n\}$
+\ENDFOR
+\IF{$x_1 \in \Sigma$}
+	\STATE $P \leftarrow P \cup \{X_1 \to x_1\}$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+\subsubsection{Real-time normal form} the right part of any rule has a terminal as prefix:
+\[
+A \to a\alpha|a \in \Sigma, \alpha \in \{\Sigma \cup V\}^*
+\]
+\subsubsection{Greibach normal form} special case of RT-nf: right parts are a terminal followed by 0 or more nonterminals
+\[
+A \to a\alpha|a \in \Sigma, \alpha \in V^*
+\]
+
+
+
+\subsection{CFG extensions and subsets}
+\subsubsection{ENBF grammar (CFG+RE)} $G=\{V,\Sigma,P,S\}$. $|P|=|V|$. Rules are in the form $A\to \eta$, where $\eta$ is a RE over $V \cup \Sigma$
+\subparagraph{Derivation} Given $\eta_1, \eta_2 \in (\Sigma \cup V)^*, \eta_1 \derives \eta_2$ if 
+\begin{itemize}
+	\item $\eta_1=\alpha A\gamma$
+	\item $\eta_2=\alpha B \gamma$
+	\item $A \to e \in P$ (e is an RE)
+	\item $e \derives[*] B$
+\end{itemize}
+
 \end{document}
